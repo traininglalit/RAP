@@ -1,0 +1,28 @@
+managed implementation in class zbp_r_salehdr_btp1 unique;
+strict ( 2 );
+
+define behavior for ZR_SALEHDR_BTP1 //alias <alias_name>
+persistent table zdb_salehdr_btp1
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( readonly ) Salesorder;
+  association _item { create; }
+  static action excelUpload deep parameter ZAE_EXCELUPLOAD_BTP1;
+}
+
+define behavior for ZE_SALEITM_BTP1 //alias <alias_name>
+persistent table zdb_saleitm_btp1
+lock dependent by _header
+authorization dependent by _header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) Salesorder, Salesitem;
+  association _header;
+}

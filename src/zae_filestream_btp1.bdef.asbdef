@@ -1,0 +1,6 @@
+abstract;
+strict ( 2 );
+with hierarchy;
+define behavior for ZAE_FILESTREAM_BTP1 //alias <alias_name>
+{
+}

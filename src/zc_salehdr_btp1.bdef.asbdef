@@ -1,0 +1,21 @@
+projection;
+strict ( 2 );
+
+define behavior for ZC_SALEHDR_BTP1 //alias <alias_name>
+{
+  use create;
+  use update;
+  use delete;
+
+  use action excelUpload;
+
+  use association _item { create; }
+}
+
+define behavior for ZC_SALEITM_BTP1 //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _header;
+}

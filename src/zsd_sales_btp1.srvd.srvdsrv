@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service definition'
+define service ZSD_SALES_BTP1 {
+  expose ZC_SALEHDR_BTP1;
+  expose ZC_SALEITM_BTP1;
+}

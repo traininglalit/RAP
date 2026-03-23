@@ -1,0 +1,7 @@
+abstract;
+strict ( 2 );
+with hierarchy;
+define behavior for ZAE_EXCELUPLOAD_BTP1 //alias <alias_name>
+{
+  association _FileStream with hierarchy;
+}

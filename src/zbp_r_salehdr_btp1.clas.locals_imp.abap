@@ -88,6 +88,8 @@ CLASS lhc_ZR_SALEHDR_BTP1 IMPLEMENTATION.
     DATA: lt_excel         TYPE STANDARD TABLE OF lty_excel,
           lv_excel_content TYPE xstring,
           lt_deep          TYPE STANDARD TABLE OF lty_deep,
+          lt_hdr           TYPE TABLE FOR CREATE zr_salehdr_btp1,
+          lt_item          TYPE TABLE FOR CREATE zr_salehdr_btp1\_item,
           ls_deep          TYPE lty_deep,
           ls_item          TYPE lty_item.
 
@@ -126,7 +128,7 @@ CLASS lhc_ZR_SALEHDR_BTP1 IMPLEMENTATION.
         ls_deep-warrantydate    = <fs_group1>-warrantydate.
         ls_deep-netamount        = <fs_group1>-netamount.
         ls_deep-currency        = <fs_group1>-currency.
-        ls_deep-totalamount         = <fs_group1>-totalamount.
+        ls_deep-totalamount     = <fs_group1>-totalamount.
 
         ls_item-salesorder = <fs_group1>-salesorder.
         ls_item-salesitem = <fs_group1>-salesitem.
@@ -144,29 +146,96 @@ CLASS lhc_ZR_SALEHDR_BTP1 IMPLEMENTATION.
     ENDLOOP.
     DATA(lv_cid) = cl_system_uuid=>create_uuid_x16_static( ).
     LOOP AT lt_deep INTO DATA(ls_create).
+*********************************************************************
+"This part is applicable when you want to create header item from internal table
+*    APPEND VALUE #(
+*               %cid = lv_cid
+*        salesorder = ls_create-salesorder
+*        salesordtype = ls_create-salesordtype
+*        personname      = ls_create-personname
+*        createdon        = ls_create-createdon
+*        creationtime     = ls_create-creationtime
+*        quotationdate    = ls_create-quotationdate
+*        quotationbiddate = ls_create-quotationbiddate
+*        documentdate    = ls_create-documentdate
+*        documentcat      = ls_create-documentcat
+*        transactiongrp   = ls_create-transactiongrp
+*        orderreason     = ls_create-orderreason
+*        warrantydate    = ls_create-warrantydate
+*        netamount        = ls_create-netamount
+*        currency        = ls_create-currency
+*        totalamount     = ls_create-totalamount
+*                  ) TO lt_hdr.
+*********************************************************************
+    APPEND VALUE #(
+                   salesorder = ls_create-salesorder
+                   %cid_ref   = lv_cid
+                  ) TO lt_item.
+
+      lt_item[ 1 ]-%target = CORRESPONDING #( ls_create-item ).
+      LOOP AT lt_item[ 1 ]-%target ASSIGNING FIELD-SYMBOL(<fs_target>).
+      <fs_target>-%cid = <fs_target>-Itemuuid = cl_system_uuid=>create_uuid_x16_static( ).
+      ENDLOOP.
+
       MODIFY ENTITIES OF zr_salehdr_btp1 IN LOCAL MODE
       ENTITY zr_salehdr_btp1
       CREATE FROM VALUE #(
                          (
-                         %cid = lv_cid
-                         %key-Salesorder = ls_create-salesorder
-                         %control-Salesorder = if_abap_behv=>mk-on
-                   salesordtype = ls_create-salesordtype
-                   %control-Salesordtype = if_abap_behv=>mk-on
-                   personname      = ls_create-personname
-                   %control-Personname = if_abap_behv=>mk-on
-                   createdon   = ls_create-createdon
-                   %control-Createdon = if_abap_behv=>mk-on
-                   creationtime     = ls_create-creationtime
-                   %control-Creationtime = if_abap_behv=>mk-on
-
+                         %cid                      = lv_cid
+                         %key-Salesorder           = ls_create-salesorder
+                         %control-Salesorder       = if_abap_behv=>mk-on
+                         salesordtype              = ls_create-salesordtype
+                         %control-Salesordtype     = if_abap_behv=>mk-on
+                         personname                = ls_create-personname
+                         %control-Personname       = if_abap_behv=>mk-on
+                         createdon                 = ls_create-createdon
+                         %control-Createdon        = if_abap_behv=>mk-on
+                         creationtime              = ls_create-creationtime
+                         %control-Creationtime     = if_abap_behv=>mk-on
+                         quotationdate             = ls_create-quotationdate
+                         %control-quotationdate    = if_abap_behv=>mk-on
+                         quotationbiddate          = ls_create-quotationbiddate
+                         %control-quotationbiddate = if_abap_behv=>mk-on
+                         documentdate              = ls_create-documentdate
+                         %control-documentdate     = if_abap_behv=>mk-on
+                         documentcat               = ls_create-documentcat
+                         %control-documentcat      = if_abap_behv=>mk-on
+                         transactiongrp            = ls_create-transactiongrp
+                         %control-transactiongrp   = if_abap_behv=>mk-on
+                         orderreason               = ls_create-orderreason
+                         %control-orderreason      = if_abap_behv=>mk-on
+                         warrantydate              = ls_create-warrantydate
+                         %control-warrantydate     = if_abap_behv=>mk-on
+                         netamount                 = ls_create-netamount
+                         %control-netamount        = if_abap_behv=>mk-on
+                         currency                  = ls_create-currency
+                         %control-currency         = if_abap_behv=>mk-on
+                         totalamount               = ls_create-totalamount
+                         %control-totalamount      = if_abap_behv=>mk-on
                          )
                          )
-                         MAPPED DATA(ls_mapped)
+                         CREATE BY \_item
+                         FIELDS ( salesorder salesitem itemuuid material batchnumber materialgroup refmaterial
+                                  netitemamount currency )
+                         WITH lt_item
+                         MAPPED DATA(lt_mapped)
                          REPORTED DATA(lt_reported)
                          FAILED DATA(lt_failed).
     ENDLOOP.
-
+"Below code is the create header item from internal table
+*      MODIFY ENTITIES OF zr_salehdr_btp1 IN LOCAL MODE
+*      ENTITY zr_salehdr_btp1
+*      CREATE FIELDS ( Salesorder salesordtype personname createdon creationtime quotationdate quotationbiddate
+*                documentdate documentcat transactiongrp orderreason warrantydate netamount currency totalamount
+*                         )
+*      WITH lt_hdr
+*                         CREATE BY \_item
+*                         FIELDS ( salesorder salesitem itemuuid material batchnumber materialgroup refmaterial
+*                                  netitemamount currency )
+*                         WITH lt_item
+*                         MAPPED DATA(lt_mapped)
+*                         REPORTED DATA(lt_reported)
+*                         FAILED DATA(lt_failed).
   ENDMETHOD.
 
 ENDCLASS.

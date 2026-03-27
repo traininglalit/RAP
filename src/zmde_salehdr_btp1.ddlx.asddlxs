@@ -20,7 +20,7 @@ annotate entity ZC_SALEHDR_BTP1 with
   {
       id: 'SalesorderItem',
       purpose: #STANDARD,
-      position: 10,
+      position: 20,
       label: 'SalesOrderItem',
       type: #LINEITEM_REFERENCE,
       targetElement: '_item'
@@ -51,13 +51,24 @@ annotate entity ZC_SALEHDR_BTP1 with
   ]
   @UI.identification: [{ position: 7, label: 'Documentdate' }]
   Documentdate;
-  @UI.lineItem: [{ position: 8, label: 'Documentcat' }]
+  @UI.lineItem: [{ position: 8, label: 'Documentcat' },
+                  { type: #FOR_ACTION, dataAction: 'processData', label: 'Process Data', position: 8 }
+                ]
+
   @UI.identification: [{ position: 8, label: 'Documentcat' }]
   Documentcat;
-  @UI.lineItem: [{ position: 9, label: 'Transactiongrp' }]
-  @UI.identification: [{ position: 9, label: 'Transactiongrp' }]
+  @UI.lineItem: [{ position: 9, label: 'Transactiongrp' },
+  //  To make custom appear in first/list page we should add action along with linitem annotation
+                    { type: #FOR_ACTION, dataAction: 'clearData', label: 'Clear Data', position: 9 }
+                ]
+  //  To make custom appear in object page we should add action along with identification annotation
+  @UI.identification: [{ position: 9, label: 'Transactiongrp' }
+  //                      { type: #FOR_ACTION, dataAction: 'clearData', label: 'Clear Data1', position: 9 }
+                      ]
   Transactiongrp;
-  @UI.lineItem: [{ position: 10, label: 'Salesordtype' }]
+  @UI.lineItem: [{ position: 10, label: 'Salesordtype' },
+                      { type: #FOR_ACTION, dataAction: 'clearData1', label: 'Clear Data1', position: 10 }
+  ]
   @UI.identification: [{ position: 10, label: 'Salesordtype' }]
   @UI.selectionField: [{ position: 1 }]
   Salesordtype;

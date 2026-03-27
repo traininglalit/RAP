@@ -8,6 +8,7 @@ define view entity ZE_SALEITM_BTP1
 {
   key Salesorder,
   key Salesitem,
+  key Itemuuid,
       Material,
       Batchnumber,
       Materialgroup,

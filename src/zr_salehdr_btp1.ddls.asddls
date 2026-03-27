@@ -21,4 +21,5 @@ define root view entity ZR_SALEHDR_BTP1
       Currency,
       Totalamount,
       _item
-}
+} 
+//where Personname = $session.user

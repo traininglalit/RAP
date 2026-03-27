@@ -3,6 +3,7 @@ strict ( 2 );
 
 define behavior for ZR_SALEHDR_BTP1 //alias <alias_name>
 persistent table zdb_salehdr_btp1
+with additional save
 lock master
 authorization master ( instance )
 //etag master <field_name>
@@ -13,6 +14,9 @@ authorization master ( instance )
   field ( readonly ) Salesorder;
   association _item { create; }
   static action excelUpload deep parameter ZAE_EXCELUPLOAD_BTP1;
+  static action processData result [1] $self;
+  static action clearData result [1] $self;
+  static action clearData1 result [1] $self;
 }
 
 define behavior for ZE_SALEITM_BTP1 //alias <alias_name>
@@ -24,5 +28,6 @@ authorization dependent by _header
   update;
   delete;
   field ( readonly ) Salesorder, Salesitem;
+  field ( numbering : managed, readonly ) Itemuuid;
   association _header;
 }

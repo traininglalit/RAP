@@ -16,6 +16,10 @@ annotate entity ZC_SALEITM_BTP1 with
   @UI.lineItem: [{ position: 2, label: 'Salesitem' }]
   @UI.identification: [{ position: 2, label: 'Salesitem' }]
   Salesitem;
+  @UI.lineItem: [{ position: 9, label: 'Itemuuid' }]
+  @UI.identification: [{ position: 9, label: 'Itemuuid' }]
+  @UI.hidden: true
+  Itemuuid;
   @UI.lineItem: [{ position: 3, label: 'Material' }]
   @UI.identification: [{ position: 3, label: 'Material' }]
   Material;

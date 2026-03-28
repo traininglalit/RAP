@@ -1,0 +1,38 @@
+@Metadata.layer: #CORE
+@Search.searchable: true
+annotate entity ZC_SALESORDITEM with
+{
+  @UI.facet: [{
+      id: 'SalesorderItem',
+      purpose: #STANDARD,
+      position: 10,
+      label: 'SalesOrderItem',
+      type: #IDENTIFICATION_REFERENCE
+  }]
+  @UI.lineItem: [{ position: 1, label: 'Salesorder' }]
+  @UI.identification: [{ position: 1, label: 'Salesorder' }]
+  @Search.defaultSearchElement: true
+  Salesorder;
+  @UI.lineItem: [{ position: 2, label: 'Salesitem' }]
+  @UI.identification: [{ position: 2, label: 'Salesitem' }]
+  Salesitem;
+  @UI.lineItem: [{ position: 3, label: 'Material' }]
+  @UI.identification: [{ position: 3, label: 'Material' }]
+  Material;
+  @UI.lineItem: [{ position: 4, label: 'Batchnumber' }]
+  @UI.identification: [{ position: 4, label: 'Batchnumber' }]
+  Batchnumber;
+  @UI.lineItem: [{ position: 5, label: 'Materialgroup' }]
+  @UI.identification: [{ position: 5, label: 'Materialgroup' }]
+  Materialgroup;
+  @UI.lineItem: [{ position: 6, label: 'Refmaterial' }]
+  @UI.identification: [{ position: 6, label: 'Refmaterial' }]
+  Refmaterial;
+  @UI.lineItem: [{ position: 7, label: 'Netitemamount' }]
+  @UI.identification: [{ position: 7, label: 'Netitemamount' }]
+  Netitemamount;
+  @UI.lineItem: [{ position: 8, label: 'Currency' }]
+  @UI.identification: [{ position: 8, label: 'Currency' }]
+  Currency;
+
+}

@@ -1,0 +1,27 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_SALESORDHDR //alias <alias_name>
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Activate;
+  use action Discard;
+  use action Edit;
+  use action Resume;
+  use action Prepare;
+
+  use association _item { create; with draft; }
+  use action postSales;
+}
+
+define behavior for ZC_SALESORDITEM //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _header { with draft; }
+}

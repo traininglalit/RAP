@@ -1,0 +1,103 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+    typeName: 'Salesorder',
+    typeNamePlural: 'SalesOrders',
+    description: {
+        type: #STANDARD,
+        label: 'SalesOrder App'
+    }
+}
+@Search.searchable: true
+annotate entity ZC_SALESORDHDR with
+{
+  @UI.facet: [{
+      id: 'SalesorderHdr',
+      purpose: #STANDARD,
+      position: 10,
+      label: 'SalesOrderHdr',
+      type: #IDENTIFICATION_REFERENCE
+  },
+  {
+      id: 'SalesorderItem',
+      purpose: #STANDARD,
+      position: 10,
+      label: 'SalesOrderItem',
+      type: #LINEITEM_REFERENCE,
+      targetElement: '_item'
+  }
+  ]
+  @UI.lineItem: [{ position: 1, label: 'Salesorder' }]
+  @UI.identification: [{ position: 1, label: 'Salesorder' }]
+  @Search.defaultSearchElement: true
+  Salesorder;
+  @UI.lineItem: [{ position: 2, label: 'Createdon' }]
+  @UI.identification: [{ position: 2, label: 'Createdon' }]
+  Createdon;
+  @UI.lineItem: [{ position: 3, label: 'Creationtime' }]
+  @UI.identification: [{ position: 3, label: 'Creationtime' }]
+  Creationtime;
+  @UI.lineItem: [{ position: 4, label: 'Personname' }]
+  @UI.identification: [{ position: 4, label: 'Personname' }]
+  Personname;
+  @UI.lineItem: [{ position: 5, label: 'Quotationdate' }]
+  @UI.identification: [{ position: 5, label: 'Quotationdate' }]
+  Quotationdate;
+  @UI.lineItem: [{ position: 6, label: 'Quotationbiddate' }]
+  @UI.identification: [{ position: 6, label: 'Quotationbiddate' }]
+  Quotationbiddate;
+  @UI.lineItem: [{ position: 7, label: 'Documentdate' }]
+  @UI.identification: [{ position: 7, label: 'Documentdate' }]
+  Documentdate;
+  @UI.lineItem: [{ position: 8, label: 'Documentcat' }]
+  @UI.identification: [{ position: 8, label: 'Documentcat' }]
+  Documentcat;
+  @UI.lineItem: [{ position: 9, label: 'Transactiongrp' }
+//                { type: #FOR_ACTION, dataAction: 'postSales', label: 'Post SalesOrder', position: 9 }
+                ]
+  @UI.identification: [{ position: 9, label: 'Transactiongrp' }
+  //                      { type: #FOR_ACTION, dataAction: 'postSales', label: 'Post SalesOrder' }
+                      ]
+  Transactiongrp;
+  @UI.lineItem: [{ position: 10, label: 'Salesordtype' }]
+  @UI.identification: [{ position: 10, label: 'Salesordtype' }]
+  @UI.selectionField: [{ position: 1 }]
+  //  @Consumption.valueHelpDefinition: [{
+  //      entity: {
+  //          name: 'ZI_SALESORDER',
+  //          element: 'salesordertype'
+  //      },
+  //      additionalBinding: [{
+  //          localElement: 'Quotationdate'
+  //      }]
+  //  }]
+  //  @Consumption.valueHelpDefinition: [{
+  //      entity: {
+  //          name: 'ZI_GETFIXEDVAL',
+  //          element: 'DomvalueL'
+  //      }
+  //      additionalBinding: [{
+  //          localElement: 'Quotationdate'
+  //      }]
+  //  }]
+
+  Salesordtype;
+  @UI.lineItem: [{ position: 11, label: 'Orderreason' }]
+  @UI.identification: [{ position: 11, label: 'Orderreason' }]
+  Orderreason;
+  @UI.lineItem: [{ position: 12, label: 'Warrantydate' }]
+  @UI.identification: [{ position: 12, label: 'Warrantydate' }]
+  Warrantydate;
+  @UI.lineItem: [{ position: 13, label: 'Netamount' }]
+  @UI.identification: [{ position: 13, label: 'Netamount' }]
+  Netamount;
+  @UI.lineItem: [{ position: 14, label: 'Currency' }]
+  @UI.identification: [{ position: 14, label: 'Currency' }]
+  Currency;
+  @UI.lineItem: [{ position: 15, label: 'Totalamount' }]
+  @UI.identification: [{ position: 15, label: 'Totalamount' }]
+  Totalamount;
+  @UI.lineItem: [{ position: 16, label: 'Net Calcalute Amt' }]
+  @UI.identification: [{ position: 16, label: 'Net Calculate Amt' }]
+  calculateamt;
+
+}

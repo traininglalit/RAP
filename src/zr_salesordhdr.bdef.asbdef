@@ -1,0 +1,42 @@
+managed implementation in class zbp_r_salesordhdr unique;
+strict ( 2 );
+with draft;
+define behavior for ZR_SALESORDHDR //alias <alias_name>
+persistent table zdb_salesordhdr
+draft table zdb_saleshdr_d
+lock master
+total etag Documentdate
+authorization master ( instance, global )
+early numbering
+etag master Documentdate
+{
+  create ( precheck );
+  update ( precheck );
+  delete;
+  field ( readonly ) Salesorder, Totalamount;
+  association _item { create; with draft; }
+  draft action Activate;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+  validation validateCurreny on save { create; }
+  determination quotbidDate on modify { create; }
+  action postSales result [1] $self;
+}
+
+define behavior for ZE_SALESORDITEM //alias <alias_name>
+persistent table zdb_salesorditem
+draft table zdb_salesitem_d
+lock dependent by _header
+early numbering
+authorization dependent by _header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) Salesorder, Salesitem;
+  association _header { with draft; }
+  determination ToCalculateTotalAmt on modify { create; update; field Netitemamount; }
+  side effects { field Netitemamount affects field _header.Totalamount; }
+}
